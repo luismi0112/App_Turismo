@@ -53,7 +53,37 @@ public class companias {
             System.out.println(e.getMessage());
         }
     }
-}
+    public void delete(int idcompania) {
+		Connection dbConnection = null;
+		PreparedStatement pst = null;
 
+		String script = "DELETE FROM tblcompanias WHERE idcompania = ?";
+
+		try {
+			dbConnection = conector.conectarBD();
+			pst = dbConnection.prepareStatement(script);
+			pst.setInt(1, idcompania);
+
+			int resp = JOptionPane.showConfirmDialog(null, "¿Desea eliminar el registro No. " + idcompania + "?",
+					"Confirmacion", JOptionPane.YES_NO_OPTION);
+
+			if (resp == JOptionPane.YES_OPTION) {
+				int filasafectadas = pst.executeUpdate();
+
+				if (filasafectadas > 0) {
+					JOptionPane.showMessageDialog(null, "Registro No. " + idcompania + " eliminado correctamente");
+				} else {
+					JOptionPane.showMessageDialog(null, "No se encontro el ID " + idcompania + " en la base de datos",
+							"Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Error al eliminar el registro: " + e.getMessage(), "Error",
+					JOptionPane.ERROR_MESSAGE);
+		}
+	}
+}
 
 

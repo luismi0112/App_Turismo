@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import modelo.Medios;
 import modelo.Paquetes;
 import modelo.companias;
 
@@ -29,6 +30,8 @@ public class companias_view extends JFrame {
 	private JButton btnguardar;
 	private JTextField textweb;
 	private JLabel lblcompanias;
+	private JLabel lblidcompania;
+	private JTextField textidcompania;
 
 	/**
 	 * Launch the application.
@@ -52,7 +55,7 @@ public class companias_view extends JFrame {
 	public companias_view() {
 		setTitle("Companias");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 391, 289);
+		setBounds(100, 100, 392, 338);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -105,7 +108,7 @@ public class companias_view extends JFrame {
 		texttelefono.setColumns(10);
 
 		btnguardar = new JButton("GUARDAR");
-		btnguardar.setBounds(252, 100, 89, 39);
+		btnguardar.setBounds(156, 252, 89, 39);
 		btnguardar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -137,19 +140,24 @@ public class companias_view extends JFrame {
 		lblcompanias.setBounds(156, 23, 75, 14);
 		contentPane.add(lblcompanias);
 		
-		JButton btnlimpiar = new JButton("LIMPIAR");
-		btnlimpiar.addMouseListener(new MouseAdapter() {
+		JButton btnborrarid = new JButton("BORRAR ID");
+		btnborrarid.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				textrazonsocial.setText("");
-				textdireccion.setText("");
-				textcorreo.setText("");
-				textfechacreacion.setText("");
-				texttelefono.setText("");
-				textweb.setText("");
+				companias cr = new companias();
+				cr.delete(Integer.parseInt(textidcompania.getText()));
 			}
 		});
-		btnlimpiar.setBounds(252, 154, 89, 33);
-		contentPane.add(btnlimpiar);
+		btnborrarid.setBounds(252, 116, 89, 33);
+		contentPane.add(btnborrarid);
+		
+		lblidcompania = new JLabel("ID Compania");
+		lblidcompania.setBounds(268, 63, 61, 14);
+		contentPane.add(lblidcompania);
+		
+		textidcompania = new JTextField();
+		textidcompania.setBounds(268, 91, 61, 20);
+		contentPane.add(textidcompania);
+		textidcompania.setColumns(10);
 	}
 }

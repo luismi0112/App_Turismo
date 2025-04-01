@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import modelo.Medios;
 import modelo.Paquetes;
 import modelo.Tipotransporte;
 import java.awt.Font;
@@ -23,6 +24,7 @@ public class tipotransporte_view extends JFrame {
 	private JPanel contentPane;
 	private JTextField textnombre;
 	private JTextField textobservacion;
+	private JTextField textidtipotransporte;
 
 	/**
 	 * Launch the application.
@@ -80,7 +82,7 @@ public class tipotransporte_view extends JFrame {
 				
 			}
 		});
-		btnguardar.setBounds(120, 154, 89, 23);
+		btnguardar.setBounds(197, 132, 89, 23);
 		contentPane.add(btnguardar);
 		
 		JLabel ibntipotransporte = new JLabel("TIPO DE TRANSPORTES");
@@ -88,14 +90,23 @@ public class tipotransporte_view extends JFrame {
 		ibntipotransporte.setBounds(156, 28, 152, 14);
 		contentPane.add(ibntipotransporte);
 		
-		JButton btnlimpiar = new JButton("LIMPIAR");
-		btnlimpiar.addActionListener(new ActionListener() {
+		JButton btnborrarid = new JButton("BORRAR ID");
+		btnborrarid.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				textnombre.setText("");
-				textobservacion.setText("");
+				Tipotransporte cr = new Tipotransporte();
+				cr.delete(Integer.parseInt(textidtipotransporte.getText()));
 			}
 		});
-		btnlimpiar.setBounds(232, 154, 89, 23);
-		contentPane.add(btnlimpiar);
+		btnborrarid.setBounds(336, 132, 89, 23);
+		contentPane.add(btnborrarid);
+		
+		JLabel lbltipotransporte = new JLabel("Tipo Transporte");
+		lbltipotransporte.setBounds(348, 69, 76, 14);
+		contentPane.add(lbltipotransporte);
+		
+		textidtipotransporte = new JTextField();
+		textidtipotransporte.setBounds(338, 101, 86, 20);
+		contentPane.add(textidtipotransporte);
+		textidtipotransporte.setColumns(10);
 	}
 }

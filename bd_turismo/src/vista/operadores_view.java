@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import modelo.Medios;
 import modelo.Operadores;
 import modelo.Tipomedios;
 
@@ -54,7 +55,7 @@ public class operadores_view extends JFrame {
 	public operadores_view() {
 		setTitle("Operadores");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 524, 410);
+		setBounds(100, 100, 454, 412);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -152,25 +153,18 @@ public class operadores_view extends JFrame {
 				
 			}
 		});
-		btnguardar.setBounds(280, 155, 89, 23);
+		btnguardar.setBounds(269, 181, 89, 23);
 		contentPane.add(btnguardar);
 		
-		JButton btnlimpiar = new JButton("LIMPIAR");
-		btnlimpiar.addActionListener(new ActionListener() {
+		JButton btnborrarid = new JButton("BORRAR ID");
+		btnborrarid.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				textidoperador.setText("");
-				texttipodocumento.setText("");
-				textdocumento.setText("");
-				textnombre.setText("");
-			    textapellido.setText("");
-			    textdireccion.setText("");
-			    textcorreo.setText("");
-			    texttelefono.setText("");
-			    textidvehiculo.setText("");
+				Operadores cr = new Operadores();
+				cr.delete(Integer.parseInt(textidoperador.getText()));
 			}
 		});
-		btnlimpiar.setBounds(280, 186, 89, 23);
-		contentPane.add(btnlimpiar);
+		btnborrarid.setBounds(269, 62, 89, 23);
+		contentPane.add(btnborrarid);
 		
 		JLabel lbloperadores = new JLabel("OPERADORES");
 		lbloperadores.setFont(new Font("Arial Black", Font.PLAIN, 11));

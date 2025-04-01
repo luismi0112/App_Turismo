@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import modelo.Agencias;
+import modelo.Medios;
 import modelo.Paquetes;
 
 import javax.swing.JLabel;
@@ -32,7 +33,9 @@ public class Paquete_view extends JFrame {
 	private JTextField textobservacion;
 	private JLabel lblPrecio;
 	private JTextField textprecio;
-	private JButton btnlimpiar;
+	private JButton btnborrarcodigo;
+	private JLabel lblcodigo;
+	private JTextField textcodigo;
 
 	/**
 	 * Launch the application.
@@ -137,22 +140,13 @@ public class Paquete_view extends JFrame {
 		textprecio.setColumns(10);
 		
 		JButton btnguardar = new JButton("GUARDAR");
-		btnguardar.setBounds(271, 119, 89, 23);
+		btnguardar.setBounds(256, 144, 89, 23);
 		btnguardar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				Paquetes cr = new Paquetes();
 				 cr.create(Integer.parseInt(textiddestino.getText()),(Integer.parseInt(textidorigen.getText())), textfechaventa.getText(), textfechaejecucion.getText(), texthoraventa.getText(), texthorasalida.getText(), textobservacion.getText(), Double.parseDouble(textprecio.getText()));
-				
-				textiddestino.setText("");
-				textidorigen.setText("");
-				textfechaventa.setText("");
-				textfechaejecucion.setText("");
-				texthoraventa.setText("");
-				texthorasalida.setText("");
-				textobservacion.setText("");
-				textprecio.setText("");
-				 
+		 
 			}
 		});
 		contentPane.add(btnguardar);
@@ -162,21 +156,24 @@ public class Paquete_view extends JFrame {
 		lblPaquetes.setBounds(188, 11, 67, 14);
 		contentPane.add(lblPaquetes);
 		
-		btnlimpiar = new JButton("LIMPIAR");
-		btnlimpiar.addMouseListener(new MouseAdapter() {
+		btnborrarcodigo = new JButton("BORRAR CODIGO");
+		btnborrarcodigo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				textiddestino.setText("");
-				textidorigen.setText("");
-				textfechaventa.setText("");
-				textfechaejecucion.setText("");
-				texthoraventa.setText("");
-				texthorasalida.setText("");
-				textobservacion.setText("");
-				textprecio.setText("");
+				Paquetes cr = new Paquetes();
+				cr.delete(Integer.parseInt(textcodigo.getText()));
 			}
 		});
-		btnlimpiar.setBounds(271, 148, 89, 23);
-		contentPane.add(btnlimpiar);
+		btnborrarcodigo.setBounds(233, 94, 119, 23);
+		contentPane.add(btnborrarcodigo);
+		
+		lblcodigo = new JLabel("Codigo");
+		lblcodigo.setBounds(278, 48, 46, 14);
+		contentPane.add(lblcodigo);
+		
+		textcodigo = new JTextField();
+		textcodigo.setBounds(256, 70, 86, 20);
+		contentPane.add(textcodigo);
+		textcodigo.setColumns(10);
 	}
 }

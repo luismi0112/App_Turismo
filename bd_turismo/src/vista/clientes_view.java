@@ -11,17 +11,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import modelo.Agencias;
 import modelo.Clientes;
-
-import java.awt.Window.Type;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JList;
-import javax.swing.JToggleButton;
-import javax.swing.JComboBox;
-import javax.swing.JRadioButton;
 
 public class clientes_view extends JFrame {
 
@@ -41,8 +34,9 @@ public class clientes_view extends JFrame {
 	private JLabel lblestadocivil;
 	private JTextField textestadocivil;
 	private JLabel lblclientes;
-	private JButton btnlimpiar;
-	private JComboBox combotipodocumento;
+	private JButton btnborrarid;
+	private JTextField textidcliente;
+	private JTextField texttipodocumento;
 
 	/**
 	 * Launch the application.
@@ -66,7 +60,7 @@ public class clientes_view extends JFrame {
 	public clientes_view() {
 		setTitle("Clientes");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 424, 372);
+		setBounds(100, 100, 475, 447);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -145,7 +139,7 @@ public class clientes_view extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				Clientes cr = new Clientes();
-				cr.create(combotipodocumento.getSelectedItem().toString(), Integer.parseInt(textdocumento.getText()), textnombre.getText(), textapellido.getText(), texteps.getText(), textalergias.getText(), textfechanacimiento.getText(), textcorreopersonal.getText(), textestadocivil.getText(), texttelefono.getText(), textdireccion.getText());
+				cr.create(Integer.parseInt(textidcliente.getText()), texttipodocumento.getText(), Integer.parseInt(textdocumento.getText()), textnombre.getText(), textapellido.getText(), texteps.getText(), textalergias.getText(), textfechanacimiento.getText(), textcorreopersonal.getText(), textestadocivil.getText(), texttelefono.getText(), textdireccion.getText());
 				
 			}
 		});
@@ -184,29 +178,30 @@ public class clientes_view extends JFrame {
 		lblclientes.setBounds(182, 11, 66, 14);
 		contentPane.add(lblclientes);
 		
-		btnlimpiar = new JButton("LIMPIAR");
-		btnlimpiar.addActionListener(new ActionListener() {
+		btnborrarid = new JButton("BORRAR ID");
+		btnborrarid.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
-				combotipodocumento.setSelectedIndex(0); 
-				textdocumento.setText("");
-				textnombre.setText("");
-				textapellido.setText("");
-			    texteps.setText("");
-			    textalergias.setText("");
-			    textfechanacimiento.setText("");
-			    textcorreopersonal.setText("");
-			    textestadocivil.setText("");
-			    texttelefono.setText("");
-			    textdireccion.setText("");
+				Clientes cr = new Clientes();
+				cr.delete(Integer.parseInt(textidcliente.getText()));
 			}
 		});
-		btnlimpiar.setBounds(280, 193, 89, 23);
-		contentPane.add(btnlimpiar);
+		btnborrarid.setBounds(360, 68, 89, 23);
+		contentPane.add(btnborrarid);
 		
-		String[] tiposdocumento = {"CC", "TI", "CE", "RC", "PASAPORTE"};
-		JComboBox<String> combotipodocumento = new JComboBox<>(tiposdocumento);
-		combotipodocumento.setBounds(162, 44, 86, 20);
-		contentPane.add(combotipodocumento);
+		
+		JLabel lblidclientes = new JLabel("ID Clientes");
+		lblidclientes.setBounds(272, 47, 61, 14);
+		contentPane.add(lblidclientes);
+		
+		textidcliente = new JTextField();
+		textidcliente.setBounds(262, 69, 86, 20);
+		contentPane.add(textidcliente);
+		textidcliente.setColumns(10);
+		
+		texttipodocumento = new JTextField();
+		texttipodocumento.setBounds(162, 44, 86, 20);
+		contentPane.add(texttipodocumento);
+		texttipodocumento.setColumns(10);
 	}
 }

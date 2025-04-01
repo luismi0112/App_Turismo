@@ -20,7 +20,7 @@ public class agencias_view extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textidcompania;
+	private JTextField textidagencias;
 	private JTextField textnombre;
 	private JTextField textdireccion;
 	private JTextField textcorreo;
@@ -32,7 +32,7 @@ public class agencias_view extends JFrame {
 	private JLabel lbltelefono;
 	private JLabel iblweb;
 	private JLabel lblagencias;
-	private JButton btnlimpiar;
+	private JButton btnborrar;
 
 	/**
 	 * Launch the application.
@@ -63,14 +63,14 @@ public class agencias_view extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblidcompania = new JLabel("ID compania");
-		lblidcompania.setBounds(144, 79, 63, 14);
-		contentPane.add(lblidcompania);
+		JLabel lblidagencias = new JLabel("ID Agencias");
+		lblidagencias.setBounds(144, 79, 63, 14);
+		contentPane.add(lblidagencias);
 		
-		textidcompania = new JTextField();
-		textidcompania.setBounds(217, 76, 86, 20);
-		contentPane.add(textidcompania);
-		textidcompania.setColumns(10);
+		textidagencias = new JTextField();
+		textidagencias.setBounds(217, 76, 86, 20);
+		contentPane.add(textidagencias);
+		textidagencias.setColumns(10);
 		
 		textnombre = new JTextField();
 		textnombre.setBounds(217, 102, 86, 20);
@@ -122,12 +122,12 @@ public class agencias_view extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				Agencias cr = new Agencias();
-				 cr.create(Integer.parseInt(textidcompania.getText()), textnombre.getText(), textdireccion.getText(), textcorreo.getText(), texttelefono.getText(), textweb.getText());
+				 cr.create(Integer.parseInt(textidagencias.getText()), textnombre.getText(), textdireccion.getText(), textcorreo.getText(), texttelefono.getText(), textweb.getText());
 				
 			}
 		});
 		
-		btnguardar.setBounds(144, 245, 89, 23);
+		btnguardar.setBounds(185, 245, 89, 23);
 		contentPane.add(btnguardar);
 		
 		lblagencias = new JLabel("AGENCIAS");
@@ -135,19 +135,15 @@ public class agencias_view extends JFrame {
 		lblagencias.setBounds(205, 37, 70, 14);
 		contentPane.add(lblagencias);
 		
-		btnlimpiar = new JButton("LIMPIAR");
-		btnlimpiar.addMouseListener(new MouseAdapter() {
+		btnborrar = new JButton("BORRAR ID");
+		btnborrar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				textidcompania.setText("");
-				textnombre.setText("");
-			    textdireccion.setText("");
-			    textcorreo.setText("");
-			    texttelefono.setText("");
-			    textweb.setText("");
+				Agencias cr = new Agencias();
+				cr.delete(Integer.parseInt(textidagencias.getText()));
 			}
 		});
-		btnlimpiar.setBounds(243, 245, 89, 23);
-		contentPane.add(btnlimpiar);
+		btnborrar.setBounds(328, 75, 89, 23);
+		contentPane.add(btnborrar);
 	}
 }

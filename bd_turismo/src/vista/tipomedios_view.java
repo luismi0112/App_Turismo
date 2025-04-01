@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import modelo.Medios;
 import modelo.Tipomedios;
 
 import javax.swing.JLabel;
@@ -23,6 +24,7 @@ public class tipomedios_view extends JFrame {
 	private JPanel contentPane;
 	private JTextField textnombre;
 	private JTextField textobservacion;
+	private JTextField textidtipomedio;
 
 	/**
 	 * Launch the application.
@@ -46,7 +48,7 @@ public class tipomedios_view extends JFrame {
 	public tipomedios_view() {
 		setTitle("Tipomedios");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 451, 234);
+		setBounds(100, 100, 509, 232);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -72,7 +74,7 @@ public class tipomedios_view extends JFrame {
 		textobservacion.setColumns(10);
 
 		JButton btnguardar = new JButton("GUARDAR");
-		btnguardar.setBounds(127, 154, 89, 23);
+		btnguardar.setBounds(201, 132, 89, 23);
 		btnguardar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -88,15 +90,24 @@ public class tipomedios_view extends JFrame {
 		lbltipomedios.setBounds(185, 21, 110, 14);
 		contentPane.add(lbltipomedios);
 		
-		JButton btnlimpiar = new JButton("LIMPIAR");
-		btnlimpiar.addActionListener(new ActionListener() {
+		JButton btnborrarid = new JButton("BORRAR ID");
+		btnborrarid.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				textnombre.setText("");
-				textobservacion.setText("");
+				Tipomedios cr = new Tipomedios();
+				cr.delete(Integer.parseInt(textidtipomedio.getText()));
 			}
 		});
-		btnlimpiar.setBounds(237, 154, 89, 23);
-		contentPane.add(btnlimpiar);
+		btnborrarid.setBounds(345, 104, 89, 23);
+		contentPane.add(btnborrarid);
+		
+		JLabel lblidtipomedio = new JLabel("ID Tipo medios");
+		lblidtipomedio.setBounds(354, 55, 70, 14);
+		contentPane.add(lblidtipomedio);
+		
+		textidtipomedio = new JTextField();
+		textidtipomedio.setBounds(364, 80, 46, 20);
+		contentPane.add(textidtipomedio);
+		textidtipomedio.setColumns(10);
 	}
 
 }

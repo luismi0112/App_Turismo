@@ -150,7 +150,7 @@ public class promotores_view extends JFrame {
 				try {
 					java.sql.Date fechaSQL = java.sql.Date.valueOf(textfechanacimiento.getText());
 					
-			   cr.create(combotipodocumento.getSelectedItem().toString(), Integer.parseInt(textdocumento.getText()), textnombre.getText(),
+			   cr.create(Integer.parseInt(textidpromotor.getText()), combotipodocumento.getSelectedItem().toString(), Integer.parseInt(textdocumento.getText()), textnombre.getText(),
 						textapellido.getText(), textdireccion.getText(), textcorreopersonal.getText(),
 						textcorreocorp.getText(),textfechanacimiento.getText(),
 						texttelefono.getText());
@@ -175,16 +175,8 @@ public class promotores_view extends JFrame {
 		btnlimpiar = new JButton("LIMPIAR");
 		btnlimpiar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				textidpromotor.setText("");
-				combotipodocumento.setSelectedIndex(0); 
-				textdocumento.setText("");
-				textnombre.setText("");
-				textapellido.setText("");
-				textdireccion.setText("");
-				textcorreopersonal.setText("");
-				textcorreocorp.setText("");
-				textfechanacimiento.setText("");
-				texttelefono.setText("");
+				Promotores cr = new Promotores();
+				cr.delete(Integer.parseInt(textidpromotor.getText()));
 			}
 		});
 		btnlimpiar.setBounds(280, 223, 89, 23);

@@ -11,6 +11,7 @@ import controlador.Conexion;
 
 public class Clientes {
 
+	public int idcliente;
 	public String tipodocumento;
 	public int documento;
 	public String nombres;
@@ -24,10 +25,11 @@ public class Clientes {
 	public String direccion;
 
 
-	public Clientes(String tipodocumento, int documento, String nombres, String apellidos, String eps,
+	public Clientes(int idcliente, String tipodocumento, int documento, String nombres, String apellidos, String eps,
 			String alergias, String fechanacimiento, String correo, String estadocivil, String telefono,
 			String direccion) {
 		super();
+		this.idcliente = idcliente;
 		this.tipodocumento = tipodocumento;
 		this.documento = documento;
 		this.nombres = nombres;
@@ -43,6 +45,20 @@ public class Clientes {
 
 	public Clientes() {
 	
+	}
+
+	/**
+	 * @return the idcliente
+	 */
+	public int getIdcliente() {
+		return idcliente;
+	}
+
+	/**
+	 * @param idcliente the idcliente to set
+	 */
+	public void setIdcliente(int idcliente) {
+		this.idcliente = idcliente;
 	}
 
 	/**
@@ -201,7 +217,7 @@ public class Clientes {
 
 	Conexion conector = new Conexion();
 
-    public void create (String tipodocumento, int documento, String nombres, String apellidos, String eps,
+    public void create (int idcliente, String tipodocumento, int documento, String nombres, String apellidos, String eps,
 	String alergias, String fechanacimiento, String correo, String estadocivil, String telefono,
 	String direccion) {
         Connection dbConnection = null;
@@ -219,7 +235,7 @@ public class Clientes {
             pst.setString(4, apellidos);
             pst.setString(5, eps);
             pst.setString(6, alergias);
-            pst.setString(7, fechanacimiento);
+            pst.setDate(7, Date.valueOf(fechanacimiento));
             pst.setString(8, correo);
             pst.setString(9, estadocivil);
             pst.setString(10, telefono);
@@ -232,5 +248,35 @@ public class Clientes {
             System.out.println(e.getMessage());
             }
         }
+    public void delete(int idcliente) {
+		Connection dbConnection = null;
+		PreparedStatement pst = null;
 
-    }
+		String script = "DELETE FROM tblclientes WHERE idcliente = ?";
+
+		try {
+			dbConnection = conector.conectarBD();
+			pst = dbConnection.prepareStatement(script);
+			pst.setInt(1, idcliente);
+
+			int resp = JOptionPane.showConfirmDialog(null, "¿Desea eliminar el registro No. " + idcliente + "?",
+					"Confirmacion", JOptionPane.YES_NO_OPTION);
+
+			if (resp == JOptionPane.YES_OPTION) {
+				int filasafectadas = pst.executeUpdate();
+
+				if (filasafectadas > 0) {
+					JOptionPane.showMessageDialog(null, "Registro No. " + idcliente + " eliminado correctamente");
+				} else {
+					JOptionPane.showMessageDialog(null, "No se encontro el ID " + idcliente + " en la base de datos",
+							"Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Error al eliminar el registro: " + e.getMessage(), "Error",
+					JOptionPane.ERROR_MESSAGE);
+		}
+	}
+}

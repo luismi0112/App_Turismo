@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import modelo.Clientes;
 import modelo.Medios;
 import modelo.Tipotransporte;
 
@@ -27,7 +28,9 @@ public class medios_view extends JFrame {
 	private JLabel lblidTipomedio;
 	private JTextField textidTipomedio;
 	private JLabel lblmedios;
-	private JButton btnLimpiar;
+	private JButton btnborrarid;
+	private JLabel lblidmedio;
+	private JTextField textidmedio;
 
 	/**
 	 * Launch the application.
@@ -81,7 +84,7 @@ public class medios_view extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				Medios cr = new Medios();
-				 cr.create(textnombre.getText(), textobservacion.getText(), Integer.parseInt(textidTipomedio.getText()));
+				cr.create(textnombre.getText(), textobservacion.getText(), Integer.parseInt(textidTipomedio.getText()));
 				 
 			}
 		});
@@ -99,19 +102,27 @@ public class medios_view extends JFrame {
 		
 		lblmedios = new JLabel("MEDIOS");
 		lblmedios.setFont(new Font("Arial Black", Font.PLAIN, 11));
-		lblmedios.setBounds(202, 25, 56, 14);
+		lblmedios.setBounds(191, 18, 56, 14);
 		contentPane.add(lblmedios);
 		
-		btnLimpiar = new JButton("LIMPIAR");
-		btnLimpiar.addActionListener(new ActionListener() {
+		btnborrarid = new JButton("BORRAR ID");
+		btnborrarid.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				textnombre.setText("");
-				textobservacion.setText("");
-				textidTipomedio.setText("");
+				Medios cr = new Medios();
+				cr.delete(Integer.parseInt(textidmedio.getText()));
 			}
 		});
-		btnLimpiar.setBounds(232, 180, 89, 36);
-		contentPane.add(btnLimpiar);
+		btnborrarid.setBounds(325, 41, 89, 25);
+		contentPane.add(btnborrarid);
+		
+		lblidmedio = new JLabel("ID Medios");
+		lblidmedio.setBounds(133, 46, 48, 14);
+		contentPane.add(lblidmedio);
+		
+		textidmedio = new JTextField();
+		textidmedio.setBounds(191, 43, 124, 20);
+		contentPane.add(textidmedio);
+		textidmedio.setColumns(10);
 	}
 
 }

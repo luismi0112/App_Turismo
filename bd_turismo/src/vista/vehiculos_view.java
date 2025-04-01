@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import modelo.Medios;
 import modelo.Tipotransporte;
 import modelo.Vehiculos;
 
@@ -31,7 +32,9 @@ public class vehiculos_view extends JFrame {
 	private JLabel lblidTipotransporte;
 	private JTextField textidTipotransporte;
 	private JLabel lblvehiculos;
-	private JButton btnlimpiar;
+	private JButton btnborrarid;
+	private JLabel lblidvehiculo;
+	private JTextField textidvehiculo;
 
 	/**
 	 * Launch the application.
@@ -55,7 +58,7 @@ public class vehiculos_view extends JFrame {
 	public vehiculos_view() {
 		setTitle("Vehiculos");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 421, 310);
+		setBounds(100, 100, 390, 358);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -125,7 +128,7 @@ public class vehiculos_view extends JFrame {
 				
 			}
 		});
-		btnguardar.setBounds(281, 117, 89, 23);
+		btnguardar.setBounds(150, 273, 104, 35);
 		contentPane.add(btnguardar);
 		
 		lblidTipotransporte = new JLabel("ID Tipo transporte");
@@ -142,19 +145,24 @@ public class vehiculos_view extends JFrame {
 		lblvehiculos.setBounds(157, 25, 78, 14);
 		contentPane.add(lblvehiculos);
 		
-		btnlimpiar = new JButton("LIMPIAR");
-		btnlimpiar.addActionListener(new ActionListener() {
+		btnborrarid = new JButton("BORRAR ID");
+		btnborrarid.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				textmatricula.setText("");
-				textmarca.setText("");
-				textpuestos.setText("");
-				textmodelo.setText("");
-				textnumeromotor.setText("");
-				textcategoria.setText("");
+				Vehiculos cr = new Vehiculos();
+				cr.delete(Integer.parseInt(textidvehiculo.getText()));
 			}
 		});
-		btnlimpiar.setBounds(281, 149, 89, 23);
-		contentPane.add(btnlimpiar);
+		btnborrarid.setBounds(275, 117, 89, 23);
+		contentPane.add(btnborrarid);
+		
+		lblidvehiculo = new JLabel("ID Vehiculos");
+		lblidvehiculo.setBounds(293, 59, 61, 14);
+		contentPane.add(lblidvehiculo);
+		
+		textidvehiculo = new JTextField();
+		textidvehiculo.setBounds(293, 84, 57, 20);
+		contentPane.add(textidvehiculo);
+		textidvehiculo.setColumns(10);
 	}
 
 }
