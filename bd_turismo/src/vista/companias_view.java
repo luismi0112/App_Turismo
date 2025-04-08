@@ -17,6 +17,10 @@ import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Font;
+import javax.swing.JTable;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
 
 public class companias_view extends JFrame {
 
@@ -32,6 +36,9 @@ public class companias_view extends JFrame {
 	private JLabel lblcompanias;
 	private JLabel lblidcompania;
 	private JTextField textidcompania;
+	private JTable table;
+	private JButton btnbuscar;
+	private JButton btnNewButton;
 
 	/**
 	 * Launch the application.
@@ -55,7 +62,7 @@ public class companias_view extends JFrame {
 	public companias_view() {
 		setTitle("Companias");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 392, 338);
+		setBounds(100, 100, 481, 380);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -63,7 +70,8 @@ public class companias_view extends JFrame {
 		contentPane.setLayout(null);
 
 		JLabel lblrazonsocial = new JLabel("Razon Social");
-		lblrazonsocial.setBounds(59, 63, 70, 14);
+		lblrazonsocial.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		lblrazonsocial.setBounds(47, 63, 82, 14);
 		contentPane.add(lblrazonsocial);
 
 		textrazonsocial = new JTextField();
@@ -72,7 +80,8 @@ public class companias_view extends JFrame {
 		textrazonsocial.setColumns(10);
 
 		JLabel lbldireccion = new JLabel("Direccion");
-		lbldireccion.setBounds(68, 94, 50, 14);
+		lbldireccion.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		lbldireccion.setBounds(57, 94, 61, 14);
 		contentPane.add(lbldireccion);
 
 		textdireccion = new JTextField();
@@ -81,7 +90,8 @@ public class companias_view extends JFrame {
 		textdireccion.setColumns(10);
 
 		JLabel lblcorreo = new JLabel("Correo Electronico");
-		lblcorreo.setBounds(47, 125, 98, 14);
+		lblcorreo.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		lblcorreo.setBounds(35, 125, 110, 14);
 		contentPane.add(lblcorreo);
 
 		textcorreo = new JTextField();
@@ -90,7 +100,8 @@ public class companias_view extends JFrame {
 		textcorreo.setColumns(10);
 
 		JLabel lbltelefono = new JLabel("Fecha de  Creacion");
-		lbltelefono.setBounds(47, 158, 98, 14);
+		lbltelefono.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		lbltelefono.setBounds(35, 158, 110, 14);
 		contentPane.add(lbltelefono);
 
 		textfechacreacion = new JTextField();
@@ -99,7 +110,8 @@ public class companias_view extends JFrame {
 		textfechacreacion.setColumns(10);
 
 		JLabel ibltelefono = new JLabel("Telefono");
-		ibltelefono.setBounds(68, 189, 46, 14);
+		ibltelefono.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		ibltelefono.setBounds(53, 189, 61, 14);
 		contentPane.add(ibltelefono);
 
 		texttelefono = new JTextField();
@@ -107,8 +119,9 @@ public class companias_view extends JFrame {
 		contentPane.add(texttelefono);
 		texttelefono.setColumns(10);
 
-		btnguardar = new JButton("GUARDAR");
-		btnguardar.setBounds(156, 252, 89, 39);
+		btnguardar = new JButton("");
+		btnguardar.setIcon(new ImageIcon("C:\\Users\\APRENDIZ\\Downloads\\8666542_guardaricon.png"));
+		btnguardar.setBounds(138, 248, 89, 51);
 		btnguardar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -127,20 +140,22 @@ public class companias_view extends JFrame {
 		contentPane.add(btnguardar);
 
 		JLabel iblweb = new JLabel("Web");
-		iblweb.setBounds(78, 220, 22, 14);
+		iblweb.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		iblweb.setBounds(63, 220, 37, 14);
 		contentPane.add(iblweb);
 
 		textweb = new JTextField();
 		textweb.setBounds(156, 217, 86, 20);
 		textweb.setColumns(10);
 		contentPane.add(textweb);
-		
+
 		lblcompanias = new JLabel("COMPANIAS");
 		lblcompanias.setFont(new Font("Arial Black", Font.PLAIN, 11));
-		lblcompanias.setBounds(156, 23, 75, 14);
+		lblcompanias.setBounds(220, 11, 75, 26);
 		contentPane.add(lblcompanias);
-		
-		JButton btnborrarid = new JButton("BORRAR ID");
+
+		JButton btnborrarid = new JButton("");
+		btnborrarid.setIcon(new ImageIcon("C:\\Users\\APRENDIZ\\Downloads\\8666597_eliminar_2_icon.png"));
 		btnborrarid.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -148,16 +163,48 @@ public class companias_view extends JFrame {
 				cr.delete(Integer.parseInt(textidcompania.getText()));
 			}
 		});
-		btnborrarid.setBounds(252, 116, 89, 33);
+		btnborrarid.setBounds(340, 155, 89, 48);
 		contentPane.add(btnborrarid);
-		
+
 		lblidcompania = new JLabel("ID Compania");
-		lblidcompania.setBounds(268, 63, 61, 14);
+		lblidcompania.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		lblidcompania.setBounds(353, 107, 73, 14);
 		contentPane.add(lblidcompania);
-		
+
 		textidcompania = new JTextField();
-		textidcompania.setBounds(268, 91, 61, 20);
+		textidcompania.setBounds(353, 124, 73, 20);
 		contentPane.add(textidcompania);
 		textidcompania.setColumns(10);
+
+		table = new JTable();
+		table.setBounds(305, 0, 14, 341);
+		contentPane.add(table);
+
+		btnbuscar = new JButton("");
+		btnbuscar.setIcon(new ImageIcon("C:\\Users\\APRENDIZ\\Downloads\\8666693_buscar_icon.png"));
+		btnbuscar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				companias cr = new companias();
+				cr.readOne(Integer.parseInt(textidcompania.getText()), textrazonsocial, textdireccion, textcorreo,
+						textfechacreacion, texttelefono, textweb);
+			}
+		});
+		btnbuscar.setBounds(337, 211, 89, 51);
+		contentPane.add(btnbuscar);
+
+		btnNewButton = new JButton("");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				companias cr = new companias();
+				java.sql.Date fechaSQL = java.sql.Date.valueOf(textfechacreacion.getText());
+				cr.update(Integer.parseInt(textidcompania.getText()), textrazonsocial.getText(),
+						textdireccion.getText(), textcorreo.getText(), fechaSQL, texttelefono.getText(),
+						textweb.getText());
+			}
+		});
+		btnNewButton.setIcon(
+				new ImageIcon("C:\\Users\\APRENDIZ\\Downloads\\134221_actualizar_icon.png"));
+		btnNewButton.setBounds(337, 276, 89, 51);
+		contentPane.add(btnNewButton);
 	}
 }

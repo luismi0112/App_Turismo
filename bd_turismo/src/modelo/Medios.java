@@ -2,9 +2,11 @@ package modelo;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 import controlador.Conexion;
 
@@ -77,37 +79,37 @@ public class Medios {
 
 	Conexion conector = new Conexion();
 
-    public void create (String nombre, String observacion, int idTipomedio) {
-    	
-        Connection dbConnection = null;
-        PreparedStatement pst = null;
+	public void create(String nombre, String observacion, int idTipomedio) {
 
-        String script = "insert into tblmedios (nombre, observacion, idtipomedio) VALUES (?, ?, ?)";
+		Connection dbConnection = null;
+		PreparedStatement pst = null;
 
-        try {
-            dbConnection = conector.conectarBD();
-            pst = dbConnection.prepareStatement(script);
+		String script = "insert into tblmedios (nombre, observacion, idtipomedio) VALUES (?, ?, ?)";
 
+		try {
+			dbConnection = Conexion.conectarBD();
+			pst = dbConnection.prepareStatement(script);
 
-            pst.setString(1, nombre);
-            pst.setString(2, observacion);
-            pst.setInt(3, idTipomedio);
+			pst.setString(1, nombre);
+			pst.setString(2, observacion);
+			pst.setInt(3, idTipomedio);
 
-            pst.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Registro con exito");
+			pst.executeUpdate();
+			JOptionPane.showMessageDialog(null, "Registro con exito");
 
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            }
-        }
-    public void delete(int idmedio) {
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	public void delete(int idmedio) {
 		Connection dbConnection = null;
 		PreparedStatement pst = null;
 
 		String script = "DELETE FROM tblmedios WHERE idmedio = ?";
 
 		try {
-			dbConnection = conector.conectarBD();
+			dbConnection = Conexion.conectarBD();
 			pst = dbConnection.prepareStatement(script);
 			pst.setInt(1, idmedio);
 
@@ -129,6 +131,64 @@ public class Medios {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, "Error al eliminar el registro: " + e.getMessage(), "Error",
 					JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+	public void readOne(int idmedio, JTextField nombre, JTextField observacion, JTextField idTipomedio) {
+		Connection dbConnection = null;
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+
+		String script = "select * from tblmedios where idmedio = ?";
+
+		try {
+			dbConnection = Conexion.conectarBD();
+			pst = dbConnection.prepareStatement(script);
+			pst.setInt(1, idmedio);
+
+			rs = pst.executeQuery();
+
+			if (rs.next()) {
+				nombre.setText(rs.getString("nombre"));
+				observacion.setText(rs.getString("observacion"));
+				idTipomedio.setText(rs.getString("idTipomedio"));
+			} else {
+				JOptionPane.showMessageDialog(null, "No se encontró el ID " + idmedio, "Error",
+						JOptionPane.ERROR_MESSAGE);
+			}
+
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Error al buscar: " + e.getMessage(), "Error",
+					JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		}
+	}
+
+	public void update(int idmedio, int idTipomedio, String nombre, String observacion) {
+
+		Connection dbConnection = null;
+		PreparedStatement pst = null;
+
+		String script = "update tblmedios set nombre = ?, observacion = ?, idTipomedio = ? where idmedio = ?";
+
+		try {
+			dbConnection = Conexion.conectarBD();
+			pst = dbConnection.prepareStatement(script);
+
+			pst.setString(1, nombre);
+			pst.setString(2, observacion);
+			pst.setInt(3, idmedio);
+			pst.setInt(4, idTipomedio);
+
+			int resp = JOptionPane.showConfirmDialog(null, "¿desea actualizar esta fila?");
+
+			if (resp == JOptionPane.OK_OPTION) {
+				pst.executeUpdate();
+				JOptionPane.showConfirmDialog(null, "fila actualizada");
+			}
+
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
 		}
 	}
 }

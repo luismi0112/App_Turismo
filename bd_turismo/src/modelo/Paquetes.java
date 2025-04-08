@@ -2,11 +2,14 @@ package modelo;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 import controlador.Conexion;
+import vista.promotores_view;
 
 public class Paquetes {
 
@@ -146,45 +149,46 @@ public class Paquetes {
 	public void setPrecio(String precio) {
 		this.precio = precio;
 	}
+
 	Conexion conector = new Conexion();
 
-    public void create (int iddestino, int idorigen, String fechaventa, String fechaejecucion, String horaventa,
+	public void create(int iddestino, int idorigen, String fechaventa, String fechaejecucion, String horaventa,
 			String horasalida, String observacion, double precio) {
-    	
-        Connection dbConnection = null;
-        PreparedStatement pst = null;
 
-        String script = "insert into tblpaquetes (iddestino, idorigen, fechaventa, fechaejecucion, horaventa, horasalida, observacion, precio) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+		Connection dbConnection = null;
+		PreparedStatement pst = null;
 
+		String script = "insert into tblpaquetes (iddestino, idorigen, fechaventa, fechaejecucion, horaventa, horasalida, observacion, precio) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try {
-            dbConnection = conector.conectarBD();
-            pst = dbConnection.prepareStatement(script);
+		try {
+			dbConnection = Conexion.conectarBD();
+			pst = dbConnection.prepareStatement(script);
 
-            pst.setInt(1, iddestino);
-            pst.setInt(2, idorigen);
-            pst.setString(3, fechaventa);
-            pst.setString(4, fechaejecucion);
-            pst.setString(5, horaventa);
-            pst.setString(6, horasalida);
-            pst.setString(7, observacion);
-            pst.setDouble(8, precio);
+			pst.setInt(1, iddestino);
+			pst.setInt(2, idorigen);
+			pst.setString(3, fechaventa);
+			pst.setString(4, fechaejecucion);
+			pst.setString(5, horaventa);
+			pst.setString(6, horasalida);
+			pst.setString(7, observacion);
+			pst.setDouble(8, precio);
 
-            pst.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Registro con exito");
+			pst.executeUpdate();
+			JOptionPane.showMessageDialog(null, "Registro con exito");
 
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            }
-        }
-    public void delete(int codigo) {
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	public void delete(int codigo) {
 		Connection dbConnection = null;
 		PreparedStatement pst = null;
 
 		String script = "DELETE FROM tblpaquetes WHERE codigo = ?";
 
 		try {
-			dbConnection = conector.conectarBD();
+			dbConnection = Conexion.conectarBD();
 			pst = dbConnection.prepareStatement(script);
 			pst.setInt(1, codigo);
 
@@ -206,6 +210,77 @@ public class Paquetes {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, "Error al eliminar el registro: " + e.getMessage(), "Error",
 					JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+	public void readOne(int codigo, JTextField iddestino, JTextField idorigen, JTextField fechaventa,
+			JTextField fechaejecucion, JTextField horaventa, JTextField horasalida, JTextField observacion,
+			JTextField precio) {
+		Connection dbConnection = null;
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+
+		String script = "select * from tblpaquetes WHERE codigo = ?";
+
+		try {
+			dbConnection = Conexion.conectarBD();
+			pst = dbConnection.prepareStatement(script);
+			pst.setInt(1, codigo);
+			rs = pst.executeQuery();
+
+			if (rs.next()) {
+
+				iddestino.setText(rs.getString("iddestino"));
+				idorigen.setText(rs.getString("idorigen"));
+				fechaventa.setText(rs.getString("fechaventa"));
+				fechaejecucion.setText(rs.getString("fechaejecucion"));
+				horaventa.setText(rs.getString("horaventa"));
+				horasalida.setText(rs.getString("horasalida"));
+				observacion.setText(rs.getString("observacion"));
+				precio.setText(rs.getString("precio"));
+
+			} else {
+				JOptionPane.showMessageDialog(null, "No se encontro el ID " + codigo, "Error",
+						JOptionPane.ERROR_MESSAGE);
+			}
+
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Error al buscar: " + e.getMessage(), "Error",
+					JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		}
+	}
+
+	public void update(int codigo, int iddestino, int idorigen, String fechaventa, String fechaejecucion,
+			String horaventa, String horasalida, String observacion, double precio) {
+
+		Connection dbConnection = null;
+		PreparedStatement pst = null;
+
+		String script = "update tblpaquetes set iddestino = ?, idorigen = ?, fechaventa = ?, fechaejecucion = ?, horaventa = ?, horasalida = ?, observacion = ?, precio = ?  where codigo = ?;";
+
+		try {
+			dbConnection = Conexion.conectarBD();
+			pst = dbConnection.prepareStatement(script);
+			pst.setInt(1, codigo);
+			pst.setInt(2, iddestino);
+			pst.setInt(3, idorigen);
+			pst.setString(4, fechaventa);
+			pst.setString(5, fechaejecucion);
+			pst.setString(6, horaventa);
+			pst.setString(7, horasalida);
+			pst.setString(8, observacion);
+			pst.setDouble(9, precio);
+
+			int resp = JOptionPane.showConfirmDialog(null, "¿desea actualizar esta fila?");
+
+			if (resp == JOptionPane.OK_OPTION) {
+				pst.executeUpdate();
+				JOptionPane.showConfirmDialog(null, "fila actualizada");
+			}
+
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
 		}
 	}
 }

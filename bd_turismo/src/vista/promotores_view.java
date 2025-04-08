@@ -13,11 +13,14 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import modelo.Clientes;
+import modelo.Operadores;
 import modelo.Promotores;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 import javax.swing.JComboBox;
+import javax.swing.JTable;
+import javax.swing.ImageIcon;
 
 public class promotores_view extends JFrame {
 
@@ -33,9 +36,12 @@ public class promotores_view extends JFrame {
 	private JTextField textfechanacimiento;
 	private JLabel lblcorreocorp;
 	private JTextField textcorreocorp;
-	private JButton btnlimpiar;
+	private JButton btnborrarid;
 	private JLabel lblpromotores;
 	private JComboBox combotipodocumento;
+	private JTable table;
+	private JButton btnbuscar;
+	private JButton btnNewButton;
 
 	/**
 	 * Launch the application.
@@ -59,7 +65,7 @@ public class promotores_view extends JFrame {
 	public promotores_view() {
 		setTitle("Promotores");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 432, 422);
+		setBounds(100, 100, 571, 437);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -67,130 +73,174 @@ public class promotores_view extends JFrame {
 		contentPane.setLayout(null);
 
 		JLabel lblidpromotor = new JLabel("ID Promotor");
-		lblidpromotor.setBounds(59, 72, 66, 14);
+		lblidpromotor.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		lblidpromotor.setBounds(440, 103, 77, 14);
 		contentPane.add(lblidpromotor);
 
 		textidpromotor = new JTextField();
-		textidpromotor.setBounds(162, 69, 86, 20);
+		textidpromotor.setBounds(431, 131, 86, 20);
 		contentPane.add(textidpromotor);
 		textidpromotor.setColumns(10);
 
 		JLabel lbltipodocumento = new JLabel("Tipo de Documento");
-		lbltipodocumento.setBounds(44, 103, 92, 14);
+		lbltipodocumento.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		lbltipodocumento.setBounds(43, 76, 97, 14);
 		contentPane.add(lbltipodocumento);
 
 		JLabel lbldocumento = new JLabel("Documento");
-		lbldocumento.setBounds(59, 134, 54, 14);
+		lbldocumento.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		lbldocumento.setBounds(66, 103, 56, 14);
 		contentPane.add(lbldocumento);
 
 		textdocumento = new JTextField();
 		textdocumento.setColumns(10);
-		textdocumento.setBounds(162, 131, 86, 20);
+		textdocumento.setBounds(162, 100, 86, 20);
 		contentPane.add(textdocumento);
 
 		JLabel lblnombre = new JLabel("Nombre");
-		lblnombre.setBounds(74, 165, 46, 14);
+		lblnombre.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		lblnombre.setBounds(76, 134, 46, 14);
 		contentPane.add(lblnombre);
 
 		textnombre = new JTextField();
 		textnombre.setColumns(10);
-		textnombre.setBounds(162, 162, 86, 20);
+		textnombre.setBounds(162, 131, 86, 20);
 		contentPane.add(textnombre);
 
 		JLabel lblapellido = new JLabel("Apellido");
-		lblapellido.setBounds(74, 196, 46, 14);
+		lblapellido.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		lblapellido.setBounds(74, 165, 46, 14);
 		contentPane.add(lblapellido);
 
 		textapellido = new JTextField();
 		textapellido.setColumns(10);
-		textapellido.setBounds(162, 193, 86, 20);
+		textapellido.setBounds(162, 162, 86, 20);
 		contentPane.add(textapellido);
 
 		JLabel lbldireccion = new JLabel("Direccion");
-		lbldireccion.setBounds(74, 227, 46, 14);
+		lbldireccion.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		lbldireccion.setBounds(74, 196, 46, 14);
 		contentPane.add(lbldireccion);
 
 		textdireccion = new JTextField();
 		textdireccion.setColumns(10);
-		textdireccion.setBounds(162, 224, 86, 20);
+		textdireccion.setBounds(162, 193, 86, 20);
 		contentPane.add(textdireccion);
 
 		JLabel lblcorreopersonal = new JLabel("Correo Personal");
-		lblcorreopersonal.setBounds(59, 258, 77, 14);
+		lblcorreopersonal.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		lblcorreopersonal.setBounds(48, 230, 92, 14);
 		contentPane.add(lblcorreopersonal);
 
 		textcorreopersonal = new JTextField();
 		textcorreopersonal.setColumns(10);
-		textcorreopersonal.setBounds(162, 255, 86, 20);
+		textcorreopersonal.setBounds(162, 227, 86, 20);
 		contentPane.add(textcorreopersonal);
 
 		JLabel lbltelefono = new JLabel("Telefono");
-		lbltelefono.setBounds(85, 351, 46, 14);
+		lbltelefono.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		lbltelefono.setBounds(74, 323, 46, 14);
 		contentPane.add(lbltelefono);
 
 		texttelefono = new JTextField();
 		texttelefono.setColumns(10);
-		texttelefono.setBounds(162, 348, 86, 20);
+		texttelefono.setBounds(162, 320, 86, 20);
 		contentPane.add(texttelefono);
 
 		JLabel lblfechanacimiento = new JLabel("Fecha Nacimiento");
-		lblfechanacimiento.setBounds(65, 320, 86, 14);
+		lblfechanacimiento.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		lblfechanacimiento.setBounds(48, 292, 86, 14);
 		contentPane.add(lblfechanacimiento);
 
 		textfechanacimiento = new JTextField();
 		textfechanacimiento.setColumns(10);
-		textfechanacimiento.setBounds(162, 317, 86, 20);
+		textfechanacimiento.setBounds(162, 289, 86, 20);
 		contentPane.add(textfechanacimiento);
 
-		JButton btnguardar = new JButton("GUARDAR");
+		JButton btnguardar = new JButton("");
+		btnguardar.setIcon(new ImageIcon("C:\\Users\\APRENDIZ\\Downloads\\8666542_guardaricon.png"));
 		btnguardar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				Promotores cr = new Promotores();
 				try {
 					java.sql.Date fechaSQL = java.sql.Date.valueOf(textfechanacimiento.getText());
-					
-			   cr.create(Integer.parseInt(textidpromotor.getText()), combotipodocumento.getSelectedItem().toString(), Integer.parseInt(textdocumento.getText()), textnombre.getText(),
-						textapellido.getText(), textdireccion.getText(), textcorreopersonal.getText(),
-						textcorreocorp.getText(),textfechanacimiento.getText(),
-						texttelefono.getText());
+
+					cr.create(Integer.parseInt(textidpromotor.getText()),
+							combotipodocumento.getSelectedItem().toString(), Integer.parseInt(textdocumento.getText()),
+							textnombre.getText(), textapellido.getText(), textdireccion.getText(),
+							textcorreopersonal.getText(), textcorreocorp.getText(), textfechanacimiento.getText(),
+							texttelefono.getText());
 
 				} catch (IllegalArgumentException ex) {
 					JOptionPane.showMessageDialog(null, "Formato de fecha incorrecto Usar AÑO-MES-DIA");
 				}
 			}
 		});
-		btnguardar.setBounds(280, 192, 89, 23);
+		btnguardar.setBounds(278, 165, 89, 65);
 		contentPane.add(btnguardar);
 
 		lblcorreocorp = new JLabel("Correo Corp");
-		lblcorreocorp.setBounds(74, 289, 67, 14);
+		lblcorreocorp.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		lblcorreocorp.setBounds(66, 261, 67, 14);
 		contentPane.add(lblcorreocorp);
 
 		textcorreocorp = new JTextField();
 		textcorreocorp.setColumns(10);
-		textcorreocorp.setBounds(162, 286, 86, 20);
+		textcorreocorp.setBounds(162, 258, 86, 20);
 		contentPane.add(textcorreocorp);
-		
-		btnlimpiar = new JButton("LIMPIAR");
-		btnlimpiar.addActionListener(new ActionListener() {
+
+		btnborrarid = new JButton("");
+		btnborrarid.setIcon(new ImageIcon("C:\\Users\\APRENDIZ\\Downloads\\8666597_eliminar_2_icon.png"));
+		btnborrarid.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Promotores cr = new Promotores();
 				cr.delete(Integer.parseInt(textidpromotor.getText()));
 			}
 		});
-		btnlimpiar.setBounds(280, 223, 89, 23);
-		contentPane.add(btnlimpiar);
-		
-		lblpromotores = new JLabel("PROMOTOTRES");
+		btnborrarid.setBounds(428, 162, 89, 68);
+		contentPane.add(btnborrarid);
+
+		lblpromotores = new JLabel("PROMOTORES");
 		lblpromotores.setFont(new Font("Arial Black", Font.PLAIN, 11));
-		lblpromotores.setBounds(162, 28, 103, 14);
+		lblpromotores.setBounds(238, 25, 103, 14);
 		contentPane.add(lblpromotores);
-		
-		String[] tiposdocumento = {"CC", "TI", "CE", "RC", "PASAPORTE"};
+
+		String[] tiposdocumento = { "CC", "TI", "CE", "RC", "PASAPORTE" };
 		JComboBox<String> combotipodocumento = new JComboBox<>(tiposdocumento);
-		combotipodocumento.setBounds(162, 100, 86, 20);
+		combotipodocumento.setBounds(162, 73, 86, 20);
 		contentPane.add(combotipodocumento);
+
+		table = new JTable();
+		table.setBounds(384, 0, 10, 398);
+		contentPane.add(table);
+
+		btnbuscar = new JButton("");
+		btnbuscar.setIcon(new ImageIcon("C:\\Users\\APRENDIZ\\Downloads\\8666693_buscar_icon.png"));
+		btnbuscar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Promotores cr = new Promotores();
+				cr.readOne(Integer.parseInt(textidpromotor.getText()), textfechanacimiento, combotipodocumento,
+						textdocumento, textnombre, textapellido, textdireccion, textcorreopersonal, textcorreocorp,
+						texttelefono);
+			}
+		});
+		btnbuscar.setBounds(431, 241, 89, 70);
+		contentPane.add(btnbuscar);
+
+		btnNewButton = new JButton("");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Promotores cr = new Promotores();
+				cr.update(Integer.parseInt(textidpromotor.getText()), combotipodocumento.getSelectedItem().toString(),
+						Integer.parseInt(textdocumento.getText()), textnombre.getText(), textapellido.getText(),
+						textdireccion.getText(), textcorreopersonal.getText(), textcorreocorp.getText(),
+						textfechanacimiento.getText(), texttelefono.getText());
+			}
+		});
+		btnNewButton.setIcon(new ImageIcon("C:\\Users\\APRENDIZ\\Downloads\\134221_actualizar_icon.png"));
+		btnNewButton.setBounds(431, 323, 89, 64);
+		contentPane.add(btnNewButton);
 	}
 
 }

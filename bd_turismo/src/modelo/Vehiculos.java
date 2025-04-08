@@ -2,9 +2,11 @@ package modelo;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 import controlador.Conexion;
 
@@ -119,44 +121,45 @@ public class Vehiculos {
 	public void setCategoria(String categoria) {
 		this.categoria = categoria;
 	}
+
 	Conexion conector = new Conexion();
 
-    public void create (String matricula, String marca, int puestos, String modelo, String numeromotor,
-			String categoria, int idTipotransporte) {
-    	
-        Connection dbConnection = null;
-        PreparedStatement pst = null;
+	public void create(String matricula, String marca, int puestos, String modelo, String numeromotor, String categoria,
+			int idTipotransporte) {
 
-        String script = "insert into tblvehiculos (matricula, marca, puestos, modelo, numeromotor, categoria, idTipotransporte) VALUES (?, ?, ?, ?, ?, ?, ?)";
+		Connection dbConnection = null;
+		PreparedStatement pst = null;
 
-        try {
-            dbConnection = conector.conectarBD();
-            pst = dbConnection.prepareStatement(script);
+		String script = "insert into tblvehiculos (matricula, marca, puestos, modelo, numeromotor, categoria, idTipotransporte) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
+		try {
+			dbConnection = Conexion.conectarBD();
+			pst = dbConnection.prepareStatement(script);
 
-            pst.setString(1, matricula);
-            pst.setString(2, marca);
-            pst.setInt(3, puestos);
-            pst.setString(4, modelo);
-            pst.setString(5, numeromotor);
-            pst.setString(6, categoria);
-            pst.setInt(7, idTipotransporte);
+			pst.setString(1, matricula);
+			pst.setString(2, marca);
+			pst.setInt(3, puestos);
+			pst.setString(4, modelo);
+			pst.setString(5, numeromotor);
+			pst.setString(6, categoria);
+			pst.setInt(7, idTipotransporte);
 
-            pst.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Registro con exito");
+			pst.executeUpdate();
+			JOptionPane.showMessageDialog(null, "Registro con exito");
 
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            }
-        }
-    public void delete(int idvehiculo) {
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	public void delete(int idvehiculo) {
 		Connection dbConnection = null;
 		PreparedStatement pst = null;
 
 		String script = "DELETE FROM tblvehiculos WHERE idvehiculo = ?";
 
 		try {
-			dbConnection = conector.conectarBD();
+			dbConnection = Conexion.conectarBD();
 			pst = dbConnection.prepareStatement(script);
 			pst.setInt(1, idvehiculo);
 
@@ -178,6 +181,72 @@ public class Vehiculos {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, "Error al eliminar el registro: " + e.getMessage(), "Error",
 					JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+	public void readOne(int idvehiculo, JTextField idTipotransporte,JTextField matricula, JTextField marca, JTextField puestos, JTextField modelo,
+			JTextField numeromotor, JTextField categoria) {
+		Connection dbConnection = null;
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+
+		String script = "SELECT * FROM tblvehiculos WHERE idvehiculo = ?";
+
+		try {
+			dbConnection = Conexion.conectarBD();
+			pst = dbConnection.prepareStatement(script);
+			pst.setInt(1, idvehiculo);
+			rs = pst.executeQuery();
+
+			if (rs.next()) {
+				matricula.setText(rs.getString("matricula"));
+				marca.setText(rs.getString("marca"));
+				puestos.setText(String.valueOf(rs.getInt("puestos")));
+				modelo.setText(rs.getString("modelo"));
+				numeromotor.setText(rs.getString("numeromotor"));
+				categoria.setText(rs.getString("categoria"));
+				idTipotransporte.setText(rs.getString("idTipotransporte"));
+
+			} else {
+				JOptionPane.showMessageDialog(null, "No se encontro el ID " + idvehiculo, "Error",
+						JOptionPane.ERROR_MESSAGE);
+			}
+
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Error al buscar: " + e.getMessage(), "Error",
+					JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		}
+	}
+	public void update(int idvehiculo, int puestos, int idTipotransporte, String matricula, String marca, String modelo, String numeromotor, String categoria) {
+		Connection dbConnection = null;
+		PreparedStatement pst = null;
+
+		String script = "update tblvehiculos set matricula = ?, marca = ?, puestos = ?, modelo = ?, numeromotor = ?, categoria = ?, idTipotransporte = ? where idvehiculo = ?";
+
+		try {
+			dbConnection = Conexion.conectarBD();
+			pst = dbConnection.prepareStatement(script);
+
+
+			pst.setString(1, matricula);
+			pst.setString(2, marca);
+			pst.setString(3, modelo);
+			pst.setString(4, numeromotor);
+			pst.setString(5, categoria);
+			pst.setInt(6, idvehiculo);
+			pst.setInt(7, puestos);
+			pst.setInt(8, idTipotransporte);
+
+			int resp = JOptionPane.showConfirmDialog(null, "¿desea actualizar esta fila?");
+
+			if (resp == JOptionPane.OK_OPTION) {
+				pst.executeUpdate();
+				JOptionPane.showConfirmDialog(null, "fila actualizada");
+			}
+
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
 		}
 	}
 }

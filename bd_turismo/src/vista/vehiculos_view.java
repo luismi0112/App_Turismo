@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import modelo.Medios;
+import modelo.Tipomedios;
 import modelo.Tipotransporte;
 import modelo.Vehiculos;
 
@@ -18,6 +19,9 @@ import java.awt.event.MouseEvent;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JSeparator;
+import javax.swing.JTable;
+import javax.swing.ImageIcon;
 
 public class vehiculos_view extends JFrame {
 
@@ -35,6 +39,8 @@ public class vehiculos_view extends JFrame {
 	private JButton btnborrarid;
 	private JLabel lblidvehiculo;
 	private JTextField textidvehiculo;
+	private JTable table;
+	private JButton btnNewButton;
 
 	/**
 	 * Launch the application.
@@ -58,7 +64,7 @@ public class vehiculos_view extends JFrame {
 	public vehiculos_view() {
 		setTitle("Vehiculos");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 390, 358);
+		setBounds(100, 100, 526, 401);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -96,43 +102,51 @@ public class vehiculos_view extends JFrame {
 		textcategoria.setColumns(10);
 		
 		JLabel lblimatricula = new JLabel("Matricula");
+		lblimatricula.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		lblimatricula.setBounds(99, 59, 48, 14);
 		contentPane.add(lblimatricula);
 		
 		JLabel lblmarca = new JLabel("Marca");
+		lblmarca.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		lblmarca.setBounds(97, 90, 38, 14);
 		contentPane.add(lblmarca);
 		
 		JLabel lblpuestos = new JLabel("Puestos");
+		lblpuestos.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		lblpuestos.setBounds(99, 121, 48, 14);
 		contentPane.add(lblpuestos);
 		
 		JLabel lblmodelo = new JLabel("Modelo");
+		lblmodelo.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		lblmodelo.setBounds(99, 152, 48, 14);
 		contentPane.add(lblmodelo);
 		
 		JLabel lblnumeromotor = new JLabel("Numero Motor");
-		lblnumeromotor.setBounds(80, 183, 68, 14);
+		lblnumeromotor.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		lblnumeromotor.setBounds(70, 183, 78, 14);
 		contentPane.add(lblnumeromotor);
 		
 		JLabel lblcategoria = new JLabel("Categoria");
+		lblcategoria.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		lblcategoria.setBounds(90, 214, 57, 14);
 		contentPane.add(lblcategoria);
 		
-		JButton btnguardar = new JButton("GUARDAR");
+		JButton btnguardar = new JButton("");
+		btnguardar.setIcon(new ImageIcon("C:\\Users\\APRENDIZ\\Downloads\\8666542_guardaricon.png"));
 		btnguardar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				Vehiculos cr = new Vehiculos();
-				 cr.create(textmatricula.getText(), textmarca.getText(), Integer.parseInt(textpuestos.getText()), textmodelo.getText(), textnumeromotor.getText(), textcategoria.getText() ,Integer.parseInt(textidTipotransporte.getText()) );
+				 cr.create(textmatricula.getText(), textmarca.getText(), Integer.parseInt(textpuestos.getText()), textmodelo.getText(), textnumeromotor.getText(), textcategoria.getText() ,Integer.parseInt(textidTipotransporte.getText()));
 				
 			}
 		});
-		btnguardar.setBounds(150, 273, 104, 35);
+		btnguardar.setBounds(253, 143, 104, 57);
 		contentPane.add(btnguardar);
 		
 		lblidTipotransporte = new JLabel("ID Tipo transporte");
-		lblidTipotransporte.setBounds(58, 245, 89, 14);
+		lblidTipotransporte.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		lblidTipotransporte.setBounds(54, 245, 93, 14);
 		contentPane.add(lblidTipotransporte);
 		
 		textidTipotransporte = new JTextField();
@@ -142,27 +156,54 @@ public class vehiculos_view extends JFrame {
 		
 		lblvehiculos = new JLabel("VEHICULOS");
 		lblvehiculos.setFont(new Font("Arial Black", Font.PLAIN, 11));
-		lblvehiculos.setBounds(157, 25, 78, 14);
+		lblvehiculos.setBounds(200, 11, 78, 14);
 		contentPane.add(lblvehiculos);
 		
-		btnborrarid = new JButton("BORRAR ID");
+		btnborrarid = new JButton("");
+		btnborrarid.setIcon(new ImageIcon("C:\\Users\\APRENDIZ\\Downloads\\8666597_eliminar_2_icon.png"));
 		btnborrarid.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Vehiculos cr = new Vehiculos();
 				cr.delete(Integer.parseInt(textidvehiculo.getText()));
 			}
 		});
-		btnborrarid.setBounds(275, 117, 89, 23);
+		btnborrarid.setBounds(391, 148, 89, 49);
 		contentPane.add(btnborrarid);
 		
 		lblidvehiculo = new JLabel("ID Vehiculos");
-		lblidvehiculo.setBounds(293, 59, 61, 14);
+		lblidvehiculo.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		lblidvehiculo.setBounds(399, 90, 63, 14);
 		contentPane.add(lblidvehiculo);
 		
 		textidvehiculo = new JTextField();
-		textidvehiculo.setBounds(293, 84, 57, 20);
+		textidvehiculo.setBounds(403, 118, 57, 20);
 		contentPane.add(textidvehiculo);
 		textidvehiculo.setColumns(10);
+		
+		table = new JTable();
+		table.setBounds(367, 0, 14, 362);
+		contentPane.add(table);
+		
+		JButton btnbuscar = new JButton("");
+		btnbuscar.setIcon(new ImageIcon("C:\\Users\\APRENDIZ\\Downloads\\8666693_buscar_icon.png"));
+		btnbuscar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Vehiculos cr = new Vehiculos();
+				cr.readOne(Integer.parseInt(textidvehiculo.getText()), textidTipotransporte, textmatricula, textmarca, textpuestos, textmodelo, textnumeromotor, textcategoria);
+			}
+		});
+		btnbuscar.setBounds(391, 211, 89, 52);
+		contentPane.add(btnbuscar);
+		
+		btnNewButton = new JButton("");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Vehiculos cr = new Vehiculos();
+				cr.update(Integer.parseInt(textidvehiculo.getText()), Integer.parseInt(textpuestos.getText()), Integer.parseInt(textidTipotransporte.getText()), textmatricula.getText(), textmarca.getText(), textmodelo.getText(), textnumeromotor.getText(), textcategoria.getText());
+			}
+		});
+		btnNewButton.setIcon(new ImageIcon("C:\\Users\\APRENDIZ\\Downloads\\134221_actualizar_icon.png"));
+		btnNewButton.setBounds(391, 283, 89, 49);
+		contentPane.add(btnNewButton);
 	}
-
 }

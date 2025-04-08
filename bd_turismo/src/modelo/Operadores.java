@@ -2,9 +2,11 @@ package modelo;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 import controlador.Conexion;
 
@@ -142,7 +144,7 @@ public class Operadores {
         String script = "INSERT INTO tbloperadores (tipodocumento, documento, nombres, apellidos, direccion, correo, telefono) values (?, ?, ?, ?, ?, ?, ?)";
 
         try {
-            dbConnection = conector.conectarBD();
+            dbConnection = Conexion.conectarBD();
             pst = dbConnection.prepareStatement(script);
 
             
@@ -168,7 +170,7 @@ public class Operadores {
 		String script = "DELETE FROM tbloperadores WHERE idoperador = ?";
 
 		try {
-			dbConnection = conector.conectarBD();
+			dbConnection = Conexion.conectarBD();
 			pst = dbConnection.prepareStatement(script);
 			pst.setInt(1, idoperador);
 
@@ -190,6 +192,71 @@ public class Operadores {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, "Error al eliminar el registro: " + e.getMessage(), "Error",
 					JOptionPane.ERROR_MESSAGE);
+		}
+	}
+    public void readOne(int idoperador, JTextField idvehiculo, JTextField tipodocumento, JTextField documento, JTextField nombres, JTextField apellidos, JTextField direccion, JTextField correo, JTextField telefono) {
+		Connection dbConnection = null;
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+
+		String script = "SELECT * FROM tbloperadores WHERE idoperador = ?";
+
+		try {
+			dbConnection = Conexion.conectarBD();
+			pst = dbConnection.prepareStatement(script);
+			pst.setInt(1, idoperador);
+			rs = pst.executeQuery();
+
+			if (rs.next()) {
+				tipodocumento.setText(rs.getString("tipodocumento"));
+				documento.setText(String.valueOf(rs.getInt("documento")));
+				nombres.setText(rs.getString("nombres"));
+				apellidos.setText(rs.getString("apellidos"));
+				direccion.setText(rs.getString("direccion"));
+				correo.setText(rs.getString("correo"));
+				telefono.setText(rs.getString("telefono"));
+				idvehiculo.setText(rs.getString("idvehiculo"));
+
+			} else {
+				JOptionPane.showMessageDialog(null, "No se encontro el ID " + idoperador, "Error",
+						JOptionPane.ERROR_MESSAGE);
+			}
+
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Error al buscar: " + e.getMessage(), "Error",
+					JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		}
+	}
+    public void update(int idoperador, String tipodocumento, int documento, String nombres, String apellidos, String direccion, String correo, String telefono) {
+		Connection dbConnection = null;
+		PreparedStatement pst = null;
+
+		String script = "update tbloperadores set tipodocumento = ?, documento = ?, nombres = ? , apellidos = ?, direccion =?, correo = ?, telefono = ? where idoperador = ?";
+
+		try {
+			dbConnection = Conexion.conectarBD();
+			pst = dbConnection.prepareStatement(script);
+
+
+			pst.setString(1, tipodocumento);
+			pst.setInt(2, documento);
+			pst.setString(3, nombres);
+			pst.setString(4, apellidos);
+			pst.setString(5, direccion);
+			pst.setString(6, correo);
+			pst.setString(7, telefono);
+			pst.setInt(8, idoperador);
+
+			int resp = JOptionPane.showConfirmDialog(null, "¿desea actualizar esta fila?");
+
+			if (resp == JOptionPane.OK_OPTION) {
+				pst.executeUpdate();
+				JOptionPane.showConfirmDialog(null, "fila actualizada");
+			}
+
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
 		}
 	}
 }

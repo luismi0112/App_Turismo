@@ -2,9 +2,11 @@ package modelo;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 import controlador.Conexion;
 
@@ -20,7 +22,7 @@ public class Tipomedios {
 	}
 
 	public Tipomedios() {
-		
+
 	}
 
 	/**
@@ -55,34 +57,35 @@ public class Tipomedios {
 
 	Conexion conector = new Conexion();
 
-    public void create(String nombre, String observacion) {
-        Connection dbConnection = null;
-        PreparedStatement pst = null;
+	public void create(String nombre, String observacion) {
+		Connection dbConnection = null;
+		PreparedStatement pst = null;
 
-        String script = "INSERT INTO tbltipomedios (nombre, observacion) values (?, ?)";
+		String script = "INSERT INTO tbltipomedios (nombre, observacion) values (?, ?)";
 
-        try {
-            dbConnection = conector.conectarBD();
-            pst = dbConnection.prepareStatement(script);
+		try {
+			dbConnection = Conexion.conectarBD();
+			pst = dbConnection.prepareStatement(script);
 
-            pst.setString(1, nombre);
-            pst.setString(2, observacion);
+			pst.setString(1, nombre);
+			pst.setString(2, observacion);
 
-            pst.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Registro con exito");
+			pst.executeUpdate();
+			JOptionPane.showMessageDialog(null, "Registro con exito");
 
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            }
-        }
-    public void delete(int idtipomedio) {
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	public void delete(int idtipomedio) {
 		Connection dbConnection = null;
 		PreparedStatement pst = null;
 
 		String script = "DELETE FROM tbltipomedios WHERE idtipomedio = ?";
 
 		try {
-			dbConnection = conector.conectarBD();
+			dbConnection = Conexion.conectarBD();
 			pst = dbConnection.prepareStatement(script);
 			pst.setInt(1, idtipomedio);
 
@@ -106,4 +109,58 @@ public class Tipomedios {
 					JOptionPane.ERROR_MESSAGE);
 		}
 	}
-}
+
+	public void readOne(int idtipomedio, JTextField nombres, JTextField observacion) {
+		Connection dbConnection = null;
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+
+		String script = "SELECT * FROM tbltipomedios WHERE idtipomedio = ?";
+
+		try {
+			dbConnection = Conexion.conectarBD();
+			pst = dbConnection.prepareStatement(script);
+			pst.setInt(1, idtipomedio);
+			rs = pst.executeQuery();
+
+			if (rs.next()) {
+				nombres.setText(rs.getString("nombre"));
+				observacion.setText(rs.getString("observacion"));
+			} else {
+				JOptionPane.showMessageDialog(null, "No se encontro el ID " + idtipomedio, "Error",
+						JOptionPane.ERROR_MESSAGE);
+			}
+
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Error al buscar: " + e.getMessage(), "Error",
+					JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		}
+	}
+	 public void update(int idtipomedio, String nombre, String observacion) {
+
+			Connection dbConnection = null;
+			PreparedStatement pst = null;
+
+			String script = "update tbltipomedios set nombre = ?, observacion= ?  where idtipomedio = ?";
+
+			try {
+				dbConnection = Conexion.conectarBD();
+				pst = dbConnection.prepareStatement(script);
+
+				pst.setString(1, nombre);
+				pst.setString(2, observacion);
+				pst.setInt(3, idtipomedio);
+
+				int resp = JOptionPane.showConfirmDialog(null, "¿desea actualizar esta fila?");
+
+				if (resp == JOptionPane.OK_OPTION) {
+					pst.executeUpdate();
+					JOptionPane.showConfirmDialog(null, "fila actualizada");
+				}
+
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+	}

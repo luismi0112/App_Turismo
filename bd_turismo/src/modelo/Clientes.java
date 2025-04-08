@@ -3,9 +3,12 @@ package modelo;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 import controlador.Conexion;
 
@@ -226,7 +229,7 @@ public class Clientes {
         String script = "INSERT INTO tblclientes (tipodocumento, documento, nombres, apellidos, eps, alergias, fechanacimiento, correo, estadocivil, telefono, direccion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try {
-            dbConnection = conector.conectarBD();
+            dbConnection = Conexion.conectarBD();
             pst = dbConnection.prepareStatement(script);
 
             pst.setString(1, tipodocumento);
@@ -247,36 +250,113 @@ public class Clientes {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             }
-        }
-    public void delete(int idcliente) {
+    }
+        public void delete(int idcliente) {
+            Connection dbConnection = null;
+            PreparedStatement pst = null;
+
+            String script = "DELETE FROM tblclientes WHERE idcliente = ?";
+
+            try {
+                dbConnection = Conexion.conectarBD();
+                pst = dbConnection.prepareStatement(script);
+                pst.setInt(1, idcliente);
+
+                int resp = JOptionPane.showConfirmDialog(null, "¿Desea eliminar el registro No. " + idcliente + "?",
+    					"Confirmacion", JOptionPane.YES_NO_OPTION);
+
+    			if (resp == JOptionPane.YES_OPTION) {
+    				int filasafectadas = pst.executeUpdate();
+
+    				if (filasafectadas > 0) {
+    					JOptionPane.showMessageDialog(null, "Registro No. " + idcliente + " eliminado correctamente");
+    				} else {
+    					JOptionPane.showMessageDialog(null, "No se encontro el ID " + idcliente + " en la base de datos",
+    							"Error", JOptionPane.ERROR_MESSAGE);
+    				}
+    			}
+
+    		} catch (SQLException e) {
+    			e.printStackTrace();
+    			JOptionPane.showMessageDialog(null, "Error al eliminar el registro: " + e.getMessage(), "Error",
+    					JOptionPane.ERROR_MESSAGE);
+    		}
+    	}
+    public void readOne(int idcliente, JTextField tipodocumento, JTextField documento,
+			JTextField nombres, JTextField apellidos, JTextField eps, JTextField fechanacimiento,JTextField alergias, JTextField correo, JTextField estadocivil, JTextField telefono, JTextField direccion) {
 		Connection dbConnection = null;
 		PreparedStatement pst = null;
+		ResultSet rs = null;
 
-		String script = "DELETE FROM tblclientes WHERE idcliente = ?";
+		String script = "SELECT * FROM tblclientes WHERE idcliente = ?";
 
 		try {
-			dbConnection = conector.conectarBD();
+			dbConnection = Conexion.conectarBD();
 			pst = dbConnection.prepareStatement(script);
 			pst.setInt(1, idcliente);
+			rs = pst.executeQuery();
 
-			int resp = JOptionPane.showConfirmDialog(null, "¿Desea eliminar el registro No. " + idcliente + "?",
-					"Confirmacion", JOptionPane.YES_NO_OPTION);
+			if (rs.next()) {
 
-			if (resp == JOptionPane.YES_OPTION) {
-				int filasafectadas = pst.executeUpdate();
+				tipodocumento.setText(rs.getString("tipodocumento"));
+				documento.setText(String.valueOf(rs.getInt("documento")));
+				nombres.setText(rs.getString("nombres"));
+				apellidos.setText(rs.getString("apellidos"));
+				eps.setText(rs.getString("eps"));
+				fechanacimiento.setText(rs.getDate("fechanacimiento").toString());
+				alergias.setText(rs.getString("alergias"));
+				correo.setText(rs.getString("correo"));
+				estadocivil.setText(rs.getString("estadocivil"));
+				telefono.setText(rs.getString("telefono"));
+				direccion.setText(rs.getString("direccion"));
 
-				if (filasafectadas > 0) {
-					JOptionPane.showMessageDialog(null, "Registro No. " + idcliente + " eliminado correctamente");
-				} else {
-					JOptionPane.showMessageDialog(null, "No se encontro el ID " + idcliente + " en la base de datos",
-							"Error", JOptionPane.ERROR_MESSAGE);
-				}
+			} else {
+				JOptionPane.showMessageDialog(null, "No se encontro el ID " + idcliente, "Error",
+						JOptionPane.ERROR_MESSAGE);
 			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Error al eliminar el registro: " + e.getMessage(), "Error",
+			JOptionPane.showMessageDialog(null, "Error al buscar: " + e.getMessage(), "Error",
 					JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		}
+	}
+
+    public void update(int idcliente, String tipodocumento, int documento, String nombres, String apellidos, String eps,
+    		String alergias, String fechanacimiento, String correo, String estadocivil, String telefono,
+    		String direccion) {
+		Connection dbConnection = null;
+		PreparedStatement pst = null;
+
+		String script = "update tblclientes set tipodocumento = ?, documento=  ?, nombres  = ?, apellidos = ?, eps = ?, alergias = ?, fechanacimiento = ?, correo = ?, estadocivil = ?, telefono = ?, direccion = ? where idcliente = ?";
+
+		try {
+			dbConnection = Conexion.conectarBD();
+			pst = dbConnection.prepareStatement(script);
+
+
+			pst.setString(1, tipodocumento);
+			pst.setInt(2, documento);
+			pst.setString(3, nombres);
+			pst.setString(4, apellidos);
+			pst.setString(5, eps);
+			pst.setString(6, alergias);
+			pst.setString(7, fechanacimiento);
+			pst.setString(8, correo);
+			pst.setString(9, estadocivil);
+			pst.setString(10, telefono);
+			pst.setString(11, direccion);
+			pst.setInt(12, idcliente);
+
+			int resp = JOptionPane.showConfirmDialog(null, "¿desea actualizar esta fila?");
+
+			if (resp == JOptionPane.OK_OPTION) {
+				pst.executeUpdate();
+				JOptionPane.showConfirmDialog(null, "fila actualizada");
+			}
+
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
 		}
 	}
 }
